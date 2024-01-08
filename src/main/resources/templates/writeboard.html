@@ -11,16 +11,16 @@
         <h2>글쓰기</h2>
     </div>
 
-    <form action="mainboard.html" th:action method="post">
+    <form action="board.html" th:action method="post">
         <div>
             <label>제목</label>
-            <input type="text" id="title" class="form-control">
+            <input type="text" id="title" name="title" class="form-control">
         </div>
 
         <hr class="my-3">
 
         <div>
-            <textarea id="content" style="resize: none" class="form-control" placeholder="내용을 입력하세요."></textarea>
+            <textarea id="content" name="content" style="resize: none" class="form-control" placeholder="내용을 입력하세요."></textarea>
         </div>
 
         <hr class="my-3">

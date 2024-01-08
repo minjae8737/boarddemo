@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +19,9 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     public Board save(Board board) {
-        boardRepository.save(board);
-        return new Board();
+        board.setHits(0);
+        board.setDate(LocalDate.now());
+        return boardRepository.save(board);
     }
 
     public void update(Long boardId, UpdateBoardDto updateParam) {
