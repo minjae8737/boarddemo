@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>글쓰기</h2>
+    </div>
+
+    <div>
+        <label>제목</label>
+        <label type="text" id="title" class="form-control" th:value="${board.title}">제목</label>
+    </div>
+
+    <hr class="my-3">
+
+    <div id="content" style="resize: none" class="form-control" th:value="${board.content}">
+        내용
+    </div>
+</div>
+</body>
+</html>

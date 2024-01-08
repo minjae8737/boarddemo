@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>게시글</h2>
+    </div>
+
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>글쓴이</th>
+                <th>날짜</th>
+                <th>조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="board : ${boards}">
+                <td th:text="${board.id}">1</td>
+                <td><a href="item.html" th:href="@{/items/{itemId}(itemId=${item.id})}" th:text="${board.title}">제목</a>
+                </td>
+                <td><a href="item.html" th:href="@{|/items/${item.id}|}" th:text="${board.writer}">글쓴이</a></td>
+                <td th:text="${board.date}">10:40</td>
+                <td th:text="${board.hits}">0</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <button class="w-25 btn btn-primary btn-lg"
+                onclick="location.href='writeboard.html'"
+                th:onclick="|location.href='@{/board/write}'|"
+        >
+            글쓰기
+        </button>
+    </div>
+
+
+    <hr class="my-4">
+
+    <form>
+        <input type="text" class="form-control"/>
+    </form>
+
+
+</div>
+
+
+</body>
+</html>
