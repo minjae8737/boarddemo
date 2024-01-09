@@ -5,21 +5,30 @@
     <link th:href="@{/css/bootstrap.min.css}"
           href="css/bootstrap.min.css" rel="stylesheet">
 </head>
+
+
 <body>
+<style>
+    /* 추가된 사용자 정의 스타일 */
+    .readonly-field {
+        background-color: #ffffff; /* Bootstrap의 회색 배경색상 */
+    }
+</style>
+
 <div class="container" style="max-width: 600px">
     <div class="py-5 text-center">
         <h2>글 내용</h2>
     </div>
 
-    <div>
-        <label>제목</label>
-        <label type="text" id="title" class="form-control" th:value="${board.title}">제목</label>
+    <div class="mb-3">
+        <label for="title">제목</label>
+        <input type="text" id="title" class="form-control" th:value="${board.title}" readonly>
     </div>
 
     <hr class="my-3">
 
-    <div id="content" style="resize: none" class="form-control" th:value="${board.content}">
-        내용
+    <div class="mb-3">
+        <textarea id="content" style="resize: none" class="form-control" th:text="${board.content}" rows="8" readonly></textarea>
     </div>
 
     <hr class="my-3">
@@ -32,7 +41,7 @@
             수정하기
         </button>
     </div>
-
 </div>
+
 </body>
 </html>
