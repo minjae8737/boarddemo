@@ -10,7 +10,7 @@
     <div class="py-5 text-center">
         <h2>글 수정</h2>
     </div>
-    <form action="mainboard.html" th:action method="post">
+    <form action="board.html" th:action method="post">
         <div>
             <label>제목</label>
             <input type="text" id="title" class="form-control" th:value="${board.title}">
@@ -30,8 +30,8 @@
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
-                        onclick="location.href='mainboard.html'"
-                        th:onclick="|location.href='@{/items/{itemId}(itemId=${item.id})}'|"
+                        onclick="location.href='board.html'"
+                        th:onclick="|location.href='@{/board/{boardId}(boardId=${board.id})}'|"
                         type="button">취소
                 </button>
             </div>

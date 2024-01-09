@@ -1,6 +1,9 @@
 package com.boardexample.boarddemo.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -9,7 +12,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,21 +46,32 @@ public class BoardRepository {
                 .addValue("content", updateParam.getContent())
                 .addValue("id", boardId);
         template.update(sql, param);
-
     }
 
-    public Optional<Board> findById(Long id) {
-        String sql = "select * " +
+    public Optional<Board> findById(Long boardId) {
+        String sql = "select id, title, content, date, hits " +
                 "from board " +
                 "where id = :id";
 
-        return Optional.of(new Board());
+        try {
+            SqlParameterSource param = new MapSqlParameterSource()
+                    .addValue("id", boardId);
+            Board board = template.queryForObject(sql, param, boardRowMapper());
+            return Optional.of(board);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     public List<Board> findAll() {
-        String sql = "select * " +
+        String sql = "select id, title, content, date, hits " +
                 "from board";
-        return new ArrayList<Board>();
+
+        return template.query(sql,boardRowMapper());
+    }
+
+    private RowMapper<Board> boardRowMapper() {
+        return BeanPropertyRowMapper.newInstance(Board.class);
     }
 
 }

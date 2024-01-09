@@ -22,27 +22,32 @@ public class MainController {
 
     @GetMapping
     public String board(Model model) {
+        log.info("---start board---");
         List<Board> boards = boardService.findAll();
         model.addAttribute("boards", boards);
         return "mainboard";
     }
 
     @GetMapping("/{boardId}")
-    public String boards(@PathVariable Long boardId, Model model) {
+    public String boards(@PathVariable(name = "boardId") long boardId, Model model) {
+        log.info("start boards");
         Board findBoard = boardService.findById(boardId).get();
+        log.info("end boards");
         model.addAttribute("board", findBoard);
         return "board";
     }
 
     @GetMapping("/edit/{boardId}")
-    public String editBoard(@PathVariable Long boardId, Model model) {
+    public String editBoard(@PathVariable(name = "boardId") long boardId, Model model) {
+        log.info("start editBoard()");
         Board board = boardService.findById(boardId).get();
+        log.info("board id={}, board title={}, board content={}", board.getId(), board.getTitle(), board.getContent());
         model.addAttribute("board", board);
         return "editboard";
     }
 
     @PostMapping("/edit/{boardId}")
-    public String edit(@PathVariable Long boardId, @ModelAttribute UpdateBoardDto updateParam) {
+    public String edit(@PathVariable(name = "boardId") long boardId, @ModelAttribute UpdateBoardDto updateParam) {
         boardService.update(boardId, updateParam);
         return "redirect:/board/{boardId}";
     }

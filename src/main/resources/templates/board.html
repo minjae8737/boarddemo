@@ -8,7 +8,7 @@
 <body>
 <div class="container" style="max-width: 600px">
     <div class="py-5 text-center">
-        <h2>글쓰기</h2>
+        <h2>글 내용</h2>
     </div>
 
     <div>
@@ -21,6 +21,18 @@
     <div id="content" style="resize: none" class="form-control" th:value="${board.content}">
         내용
     </div>
+
+    <hr class="my-3">
+
+    <div>
+        <button class="w-25 btn btn-primary btn-lg"
+                onclick="location.href='editboard.html'"
+                th:onclick="|location.href='@{/board/edit/{boardId}(boardId=${board.id})}'|"
+        >
+            수정하기
+        </button>
+    </div>
+
 </div>
 </body>
 </html>
