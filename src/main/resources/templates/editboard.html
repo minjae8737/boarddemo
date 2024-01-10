@@ -14,26 +14,16 @@
         <h2>글 수정</h2>
     </div>
     <form action="board.html" th:action method="post">
-<!--        <div>-->
-<!--            <label>제목</label>-->
-<!--            <input type="text" id="title" class="form-control" th:value="${board.title}">-->
-<!--        </div>-->
-
-<!--        <hr class="my-3">-->
-
-<!--        <div>-->
-<!--            <textarea id="content" style="resize: none" class="form-control" placeholder="내용을 입력하세요." th:value="${board.content}">내용</textarea>-->
-<!--        </div>-->
 
         <div class="mb-3">
             <label for="title">제목</label>
-            <input type="text" id="title" class="form-control" th:value="${board.title}">
+            <input type="text" id="title" name="title" class="form-control" th:value="${board.title}">
         </div>
 
         <hr class="my-3">
 
         <div class="mb-3">
-            <textarea id="content" style="resize: none" class="form-control" th:text="${board.content}" rows="8"></textarea>
+            <textarea id="content" name="content" style="resize: none" class="form-control" th:text="${board.content}" rows="8"></textarea>
         </div>
 
         <hr class="my-3">

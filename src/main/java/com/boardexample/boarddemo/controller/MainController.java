@@ -48,6 +48,7 @@ public class MainController {
 
     @PostMapping("/edit/{boardId}")
     public String edit(@PathVariable(name = "boardId") long boardId, @ModelAttribute UpdateBoardDto updateParam) {
+        log.info("updateParam title={}, content={}", updateParam.getTitle(), updateParam.getContent());
         boardService.update(boardId, updateParam);
         return "redirect:/board/{boardId}";
     }

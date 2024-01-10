@@ -24,7 +24,7 @@
             </thead>
             <tbody>
             <tr th:each="board : ${boards}">
-                <td th:text="${board.id}">1</td>
+                <td><a href="board.html" th:href="@{/board/{boardId}(boardId=${board.id})}" th:text="${board.id}">1</a></td>
                 <td><a href="board.html" th:href="@{/board/{boardId}(boardId=${board.id})}" th:text="${board.title}">제목</a>
                 </td>
                 <td th:text="${board.date}">10:40</td>
