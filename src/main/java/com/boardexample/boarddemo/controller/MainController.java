@@ -1,7 +1,9 @@
 package com.boardexample.boarddemo.controller;
 
-import com.boardexample.boarddemo.repository.Board;
-import com.boardexample.boarddemo.repository.UpdateBoardDto;
+import com.boardexample.boarddemo.domain.Board;
+import com.boardexample.boarddemo.domain.BoardSearchDto;
+import com.boardexample.boarddemo.domain.SearchType;
+import com.boardexample.boarddemo.domain.UpdateBoardDto;
 import com.boardexample.boarddemo.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +23,9 @@ public class MainController {
     private final BoardService boardService;
 
     @GetMapping
-    public String board(Model model) {
+    public String board(@ModelAttribute(name = "boardSearchDto") BoardSearchDto boardSearchDto, Model model) {
         log.info("---start board---");
+        log.info("boardSearchDto searchWord ={}, type={}", boardSearchDto.getSearchWord(), boardSearchDto.getSearchType());
         List<Board> boards = boardService.findAll();
         model.addAttribute("boards", boards);
         return "mainboard";

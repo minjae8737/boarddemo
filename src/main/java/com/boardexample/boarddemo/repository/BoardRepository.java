@@ -1,5 +1,7 @@
 package com.boardexample.boarddemo.repository;
 
+import com.boardexample.boarddemo.domain.Board;
+import com.boardexample.boarddemo.domain.UpdateBoardDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;

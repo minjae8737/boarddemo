@@ -24,8 +24,10 @@
             </thead>
             <tbody>
             <tr th:each="board : ${boards}">
-                <td><a href="board.html" th:href="@{/board/{boardId}(boardId=${board.id})}" th:text="${board.id}">1</a></td>
-                <td><a href="board.html" th:href="@{/board/{boardId}(boardId=${board.id})}" th:text="${board.title}">제목</a>
+                <td><a href="board.html" th:href="@{/board/{boardId}(boardId=${board.id})}" th:text="${board.id}">1</a>
+                </td>
+                <td><a href="board.html" th:href="@{/board/{boardId}(boardId=${board.id})}"
+                       th:text="${board.title}">제목</a>
                 </td>
                 <td th:text="${board.date}">10:40</td>
                 <td th:text="${board.hits}">0</td>
@@ -34,22 +36,45 @@
         </table>
     </div>
 
-    <div>
-        <button class="w-25 btn btn-primary btn-lg"
-                onclick="location.href='writeboard.html'"
-                th:onclick="|location.href='@{/board/write}'|"
-        >
-            글쓰기
-        </button>
+    <div class="row justify-content-end">
+        <div class="col-auto">
+            <button class="btn btn-primary"
+                    onclick="location.href='writeboard.html'"
+                    th:onclick="|location.href='@{/board/write}'|"
+            >
+                글쓰기
+            </button>
+        </div>
     </div>
 
 
     <hr class="my-4">
+    <form th:action="@{/board}" th:object="${boardSearchDto}" method="get">
+        <div class="row">
+            <div class="col-md-2">
+                <select id="searchType" name="searchType"
+                        th:field="${boardSearchDto.searchType}" class="form-control">
+                    <option th:value="${T(com.boardexample.boarddemo.domain.SearchType).TITLE}">제목</option>
+                    <option th:value="${T(com.boardexample.boarddemo.domain.SearchType).CONTENT}">내용</option>
+                    <option th:value="${T(com.boardexample.boarddemo.domain.SearchType).ALL}">제목+내용</option>
+                </select>
+            </div>
 
-    <form>
-        <input type="text" class="form-control"/>
+            <div class="col-md-10">
+                <div class="input-group">
+                    <input type="text" id="searchWord" name="searchWord"
+                           placeholder="검색..." th:value="${boardSearchDto.searchWord}" th:input="text"
+                           class="form-control rounded-2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"
+                                onclick="location.href='board.html'"
+                                th:onclick="|location.href='@{/board}'|">검색
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
-
 
 </div>
 

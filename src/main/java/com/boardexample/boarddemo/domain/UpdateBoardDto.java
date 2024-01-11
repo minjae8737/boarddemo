@@ -1,4 +1,4 @@
-package com.boardexample.boarddemo.repository;
+package com.boardexample.boarddemo.domain;
 
 import lombok.Data;
 

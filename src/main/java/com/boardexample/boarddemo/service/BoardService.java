@@ -1,13 +1,14 @@
 package com.boardexample.boarddemo.service;
 
-import com.boardexample.boarddemo.repository.Board;
+import com.boardexample.boarddemo.domain.Board;
 import com.boardexample.boarddemo.repository.BoardRepository;
-import com.boardexample.boarddemo.repository.UpdateBoardDto;
+import com.boardexample.boarddemo.domain.UpdateBoardDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ public class BoardService {
 
     public Board save(Board board) {
         board.setHits(0);
-        board.setDate(LocalDate.now());
+        board.setDate(LocalDateTime.now());
         return boardRepository.save(board);
     }
 
@@ -33,7 +34,9 @@ public class BoardService {
     }
 
     public List<Board> findAll() {
-        return boardRepository.findAll();
+        List<Board> boards = boardRepository.findAll();
+        Collections.reverse(boards);
+        return boards;
     }
 
 }
