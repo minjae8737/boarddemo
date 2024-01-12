@@ -95,8 +95,16 @@ public class BoardRepository {
         return template.query(sql, param, boardRowMapper());
     }
 
+    public void deleteById(Long boardId) {
+        String sql = "delete from board " +
+                "where id=:id";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("id", boardId);
+        template.update(sql, param);
+    }
+
     private RowMapper<Board> boardRowMapper() {
         return BeanPropertyRowMapper.newInstance(Board.class);
     }
-
 }

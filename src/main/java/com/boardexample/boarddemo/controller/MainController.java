@@ -67,4 +67,10 @@ public class MainController {
         redirectAttributes.addAttribute("boardId", savedBoard.getId());
         return "redirect:/board/{boardId}";
     }
+
+    @PostMapping("/delete")
+    public String deleteBoard(@RequestParam(name = "boardId") long boardId) {
+        boardService.deleteById(boardId);
+        return "redirect:/board";
+    }
 }

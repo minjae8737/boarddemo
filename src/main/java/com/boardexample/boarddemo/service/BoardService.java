@@ -30,8 +30,8 @@ public class BoardService {
         boardRepository.update(boardId, updateParam);
     }
 
-    public Optional<Board> findById(Long id) {
-        return boardRepository.findById(id);
+    public Optional<Board> findById(Long boardId) {
+        return boardRepository.findById(boardId);
     }
 
     public List<Board> findBoards(BoardSearchDto boardSearchDto) {
@@ -45,6 +45,10 @@ public class BoardService {
             Collections.reverse(boards);
             return boards;
         }
+    }
+
+    public void deleteById(Long boardId) {
+        boardRepository.deleteById(boardId);
     }
 
 //    public List<Board> findAll() {

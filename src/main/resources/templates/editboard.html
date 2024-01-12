@@ -8,13 +8,25 @@
 <body>
 
 
-
 <div class="container" style="max-width: 600px">
+
     <div class="py-5 text-center">
         <h2>글 수정</h2>
     </div>
-    <form action="board.html" th:action method="post">
 
+    <form action="/board/delete" method="post" style="display: inline;">
+        <div class="row justify-content-end">
+            <div class="col-auto">
+                <input type="hidden" name="boardId" th:value="${board.id}">
+                <button class="btn btn-secondary" type="submit">
+                    삭제하기
+                </button>
+            </div>
+        </div>
+    </form>
+
+
+    <form action="board.html" th:action method="post">
         <div class="mb-3">
             <label for="title">제목</label>
             <input type="text" id="title" name="title" class="form-control" th:value="${board.title}">
@@ -23,7 +35,8 @@
         <hr class="my-3">
 
         <div class="mb-3">
-            <textarea id="content" name="content" style="resize: none" class="form-control" th:text="${board.content}" rows="8"></textarea>
+            <textarea id="content" name="content" style="resize: none" class="form-control" th:text="${board.content}"
+                      rows="8"></textarea>
         </div>
 
         <hr class="my-3">
