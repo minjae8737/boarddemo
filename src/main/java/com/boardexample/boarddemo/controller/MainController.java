@@ -26,7 +26,7 @@ public class MainController {
     public String board(@ModelAttribute(name = "boardSearchDto") BoardSearchDto boardSearchDto, Model model) {
         log.info("---start board---");
         log.info("boardSearchDto searchWord ={}, type={}", boardSearchDto.getSearchWord(), boardSearchDto.getSearchType());
-        List<Board> boards = boardService.findAll();
+        List<Board> boards = boardService.findBoards(boardSearchDto);
         model.addAttribute("boards", boards);
         return "mainboard";
     }

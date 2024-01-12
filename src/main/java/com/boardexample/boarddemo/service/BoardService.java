@@ -1,8 +1,9 @@
 package com.boardexample.boarddemo.service;
 
 import com.boardexample.boarddemo.domain.Board;
-import com.boardexample.boarddemo.repository.BoardRepository;
+import com.boardexample.boarddemo.domain.BoardSearchDto;
 import com.boardexample.boarddemo.domain.UpdateBoardDto;
+import com.boardexample.boarddemo.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,10 +34,23 @@ public class BoardService {
         return boardRepository.findById(id);
     }
 
-    public List<Board> findAll() {
-        List<Board> boards = boardRepository.findAll();
-        Collections.reverse(boards);
-        return boards;
+    public List<Board> findBoards(BoardSearchDto boardSearchDto) {
+
+        if (boardSearchDto.getSearchWord() == null) {
+            List<Board> boards = boardRepository.findAll();
+            Collections.reverse(boards);
+            return boards;
+        } else {
+            List<Board> boards = boardRepository.findBySearchWord(boardSearchDto);
+            Collections.reverse(boards);
+            return boards;
+        }
     }
+
+//    public List<Board> findAll() {
+//        List<Board> boards = boardRepository.findAll();
+//        Collections.reverse(boards);
+//        return boards;
+//    }
 
 }

@@ -1,6 +1,8 @@
 package com.boardexample.boarddemo.repository;
 
 import com.boardexample.boarddemo.domain.Board;
+import com.boardexample.boarddemo.domain.BoardSearchDto;
+import com.boardexample.boarddemo.domain.SearchType;
 import com.boardexample.boarddemo.domain.UpdateBoardDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -70,6 +72,27 @@ public class BoardRepository {
                 "from board";
 
         return template.query(sql,boardRowMapper());
+    }
+
+    public List<Board> findBySearchWord(BoardSearchDto boardSearchDto) {
+        String sql = "select id, title, content, date, hits " +
+                "from board " +
+                "where ";
+
+        SearchType searchType = boardSearchDto.getSearchType();
+
+        SqlParameterSource param = new BeanPropertySqlParameterSource(boardSearchDto);
+
+        if (searchType == SearchType.TITLE) {
+            sql += "title like concat('%',:searchWord,'%')";
+        } else if (searchType == SearchType.CONTENT) {
+            sql += "content like concat('%',:searchWord,'%')";
+        } else {
+            sql += "title like concat('%',:searchWord,'%') or content like concat('%',:searchWord,'%')";
+        }
+
+        log.info("sql ={}", sql);
+        return template.query(sql, param, boardRowMapper());
     }
 
     private RowMapper<Board> boardRowMapper() {

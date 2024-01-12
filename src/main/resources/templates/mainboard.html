@@ -66,9 +66,8 @@
                            placeholder="검색..." th:value="${boardSearchDto.searchWord}" th:input="text"
                            class="form-control rounded-2">
                     <div class="input-group-append">
-                        <button class="btn btn-primary" type="button"
-                                onclick="location.href='board.html'"
-                                th:onclick="|location.href='@{/board}'|">검색
+                        <button class="btn btn-primary" type="submit">
+                            검색
                         </button>
                     </div>
                 </div>
