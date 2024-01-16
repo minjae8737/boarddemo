@@ -47,6 +47,11 @@ public class BoardService {
         }
     }
 
+//    public long getBoardCount() {
+//        long boardCount = boardRepository.getBoardCount();
+//        return boardCount;
+//    }
+
     public void deleteById(Long boardId) {
         boardRepository.deleteById(boardId);
     }

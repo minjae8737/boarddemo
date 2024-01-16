@@ -16,6 +16,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,7 +72,7 @@ public class BoardRepository {
         String sql = "select id, title, content, date, hits " +
                 "from board";
 
-        return template.query(sql,boardRowMapper());
+        return template.query(sql, boardRowMapper());
     }
 
     public List<Board> findBySearchWord(BoardSearchDto boardSearchDto) {
@@ -94,6 +95,15 @@ public class BoardRepository {
         log.info("sql ={}", sql);
         return template.query(sql, param, boardRowMapper());
     }
+
+//    public long getBoardCount() {
+//        String sql = "select count(id) " +
+//                "from board";
+//
+//        Long boardCount = template.queryForObject(sql, new HashMap<>(), Long.class);
+//
+//        return boardCount;
+//    }
 
     public void deleteById(Long boardId) {
         String sql = "delete from board " +

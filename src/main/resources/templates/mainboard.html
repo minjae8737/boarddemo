@@ -4,6 +4,14 @@
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
           href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* 페이징을 가운데 정렬하는 스타일 */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
@@ -74,6 +82,40 @@
             </div>
         </div>
     </form>
+
+
+    <!-- 페이징 컨테이너 -->
+    <div class="pagination-container">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <!-- 페이징 내용이 들어갈 자리 -->
+
+                <!-- 이전 버튼 -->
+<!--                <li th:if="${boards.hasPrevious()}" class="page-item">-->
+<!--                    <a class="page-link" th:href="@{/board(page=1, sort='id')}">-->
+<!--                        <span aria-hidden="true">&laquo;</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+
+                <!-- 페이지 번호 -->
+                <li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}" class="page-item"
+                    th:classappend="${pageNumber == page + 1} ? 'active' : ''">
+                    <a class="page-link" th:href="@{/board(page=${pageNumber - 1}, sort='id')}">
+                        <span th:text="${pageNumber}">1</span>
+                    </a>
+                </li>
+
+                <!-- 다음 버튼 -->
+<!--                <li th:if="${boards.hasNext()}" class="page-item">-->
+<!--                    <a class="page-link" th:href="@{/board(page=${totalPages}, sort='id')}">-->
+<!--                        <span aria-hidden="true">&raquo;</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+
+
+            </ul>
+        </nav>
+    </div>
 
 </div>
 
