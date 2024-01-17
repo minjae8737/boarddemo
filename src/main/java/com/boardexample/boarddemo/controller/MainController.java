@@ -23,11 +23,11 @@ public class MainController {
 
     @GetMapping
     public String board(@ModelAttribute(name = "boardSearchDto") BoardSearchDto boardSearchDto,
-                        @RequestParam(name = "page", defaultValue = "0") long page,
+                        @RequestParam(name = "currentPage", defaultValue = "0") long currentPage,
                         Model model) {
-        int boardSize = 5; // 한 페이지에 보여줄 board 개수
+        int boardSize = 1; // 한 페이지에 보여줄 board 개수
 
-        log.info("---start board---");
+        log.info("---start board()---");
         log.info("boardSearchDto searchWord ={}, type={}", boardSearchDto.getSearchWord(), boardSearchDto.getSearchType());
 
         List<Board> boards = boardService.findBoards(boardSearchDto);
@@ -35,17 +35,24 @@ public class MainController {
         int boardCount = boards.size();  // board 총 개수
         //totalPages : 페이지 총 개수
         int totalPages = ((float) boardCount % (float) boardSize == 0f) ? boardCount / boardSize : boardCount / boardSize + 1;
+        int startBoardIndex = (int) currentPage * boardSize;
         //endBoardIndex : 마지막 페이지에서 board개수가 boardSize보다 작으면 boardCount 같으면 (int) (page + 1) * boardSize
-        int endBoardIndex = Math.min(boardCount, (int) (page + 1) * boardSize);
+        int endBoardIndex = Math.min(boardCount, (int) (currentPage + 1) * boardSize);
 
-        boards = boards.subList((int) page * boardSize, endBoardIndex);  //현재 page에 표시할 board 리스트
+        boards = boards.subList(startBoardIndex, endBoardIndex);  //현재 page에 표시할 board 리스트
 
-        log.info("boardCount={} totalPages={}", boardCount, totalPages);
-        log.info("(float) boardCount / (float) boardSize == 0.0 = {}}", (float) boardCount % (float) boardSize);
+        int startPage = getStartPage((int) currentPage);
+        int endPage = getEndPage((int) currentPage + 1, totalPages);
+
+        log.info("startPage={} endPage={} totalPages={}", startPage, endPage, totalPages);
 
         model.addAttribute("boards", boards);
-        model.addAttribute("page", page);
+        model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalPages", totalPages);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        log.info("---end board()---");
 
         return "mainboard";
     }
@@ -91,5 +98,18 @@ public class MainController {
     public String deleteBoard(@RequestParam(name = "boardId") long boardId) {
         boardService.deleteById(boardId);
         return "redirect:/board";
+    }
+
+    private static int getStartPage(int currentPage) {
+
+        return Math.max(1, currentPage - 4);
+    }
+
+    private static int getEndPage(int currentPage, int totalPages) {
+        if (totalPages < 10) {
+            return currentPage;
+        } else {
+            return (currentPage + 4 <= 10) ? 10 : Math.min(currentPage + 4, totalPages);
+        }
     }
 }

@@ -92,22 +92,22 @@
 
                 <!-- 이전 버튼 -->
 <!--                <li th:if="${boards.hasPrevious()}" class="page-item">-->
-<!--                    <a class="page-link" th:href="@{/board(page=1, sort='id')}">-->
+<!--                    <a class="page-link" th:href="@{/board(currentPage=1, sort='id')}">-->
 <!--                        <span aria-hidden="true">&laquo;</span>-->
 <!--                    </a>-->
 <!--                </li>-->
 
                 <!-- 페이지 번호 -->
-                <li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}" class="page-item"
-                    th:classappend="${pageNumber == page + 1} ? 'active' : ''">
-                    <a class="page-link" th:href="@{/board(page=${pageNumber - 1}, sort='id')}">
+                <li th:each="pageNumber : ${#numbers.sequence(startPage, endPage)}" class="page-item"
+                    th:classappend="${pageNumber == currentPage + 1} ? 'active' : ''">
+                    <a class="page-link" th:href="@{/board(currentPage=${pageNumber - 1}, sort='id')}">
                         <span th:text="${pageNumber}">1</span>
                     </a>
                 </li>
 
                 <!-- 다음 버튼 -->
 <!--                <li th:if="${boards.hasNext()}" class="page-item">-->
-<!--                    <a class="page-link" th:href="@{/board(page=${totalPages}, sort='id')}">-->
+<!--                    <a class="page-link" th:href="@{/board(currentPage=${totalPages}, sort='id')}">-->
 <!--                        <span aria-hidden="true">&raquo;</span>-->
 <!--                    </a>-->
 <!--                </li>-->
