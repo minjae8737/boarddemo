@@ -62,4 +62,7 @@ public class BoardService {
 //        return boards;
 //    }
 
+    public void addHits(Long boardId, int hits) {
+        boardRepository.addHits(boardId, hits);
+    }
 }

@@ -69,8 +69,14 @@ public class MainController {
     public String boards(@PathVariable(name = "boardId") long boardId, Model model) {
         log.info("start boards");
         Board findBoard = boardService.findById(boardId).get();
-        log.info("end boards");
+
+        int findBoardHits = findBoard.getHits() + 1;
+        boardService.addHits(boardId, findBoardHits);
+        findBoard.setHits(findBoardHits);
+
         model.addAttribute("board", findBoard);
+
+        log.info("end boards");
         return "board";
     }
 

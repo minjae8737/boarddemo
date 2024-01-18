@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import java.util.Optional;
 
 @Slf4j
 @Repository
+@Transactional
 public class BoardRepository {
 
     private final NamedParameterJdbcTemplate template;
@@ -111,6 +113,18 @@ public class BoardRepository {
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("id", boardId);
+        template.update(sql, param);
+    }
+
+    public void addHits(Long boardId, int hits) {
+        String sql = "update board " +
+                "set hits=:hits " +
+                "where id=:id";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("hits", hits)
+                .addValue("id", boardId);
+
         template.update(sql, param);
     }
 
