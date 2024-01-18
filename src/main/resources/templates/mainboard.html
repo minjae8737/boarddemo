@@ -37,7 +37,12 @@
                 <td><a href="board.html" th:href="@{/board/{boardId}(boardId=${board.id})}"
                        th:text="${board.title}">제목</a>
                 </td>
-                <td th:text="${board.date}">10:40</td>
+                <p th:if="${board.date.isAfter(yesterdayTime)}">
+                    <td th:text="${#temporals.format(board.date, 'HH:mm')}"></td>
+                </p>
+                <p th:unless="${board.date.isAfter(yesterdayTime)}">
+                    <td th:text="${#temporals.format(board.date, 'MM-dd')}"></td>
+                </p>
                 <td th:text="${board.hits}">0</td>
             </tr>
             </tbody>
@@ -91,11 +96,11 @@
                 <!-- 페이징 내용이 들어갈 자리 -->
 
                 <!-- 이전 버튼 -->
-<!--                <li th:if="${boards.hasPrevious()}" class="page-item">-->
-<!--                    <a class="page-link" th:href="@{/board(currentPage=1, sort='id')}">-->
-<!--                        <span aria-hidden="true">&laquo;</span>-->
-<!--                    </a>-->
-<!--                </li>-->
+                <li th:if="${currentPage != 0}" class="page-item">
+                    <a class="page-link" th:href="@{/board(currentPage=0, sort='id')}">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
 
                 <!-- 페이지 번호 -->
                 <li th:each="pageNumber : ${#numbers.sequence(startPage, endPage)}" class="page-item"
@@ -106,11 +111,11 @@
                 </li>
 
                 <!-- 다음 버튼 -->
-<!--                <li th:if="${boards.hasNext()}" class="page-item">-->
-<!--                    <a class="page-link" th:href="@{/board(currentPage=${totalPages}, sort='id')}">-->
-<!--                        <span aria-hidden="true">&raquo;</span>-->
-<!--                    </a>-->
-<!--                </li>-->
+                <li th:if="${currentPage != totalPages - 1}" class="page-item">
+                    <a class="page-link" th:href="@{/board(currentPage=${totalPages - 1}, sort='id')}">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
 
 
             </ul>

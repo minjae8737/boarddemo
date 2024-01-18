@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Slf4j
@@ -25,7 +27,7 @@ public class MainController {
     public String board(@ModelAttribute(name = "boardSearchDto") BoardSearchDto boardSearchDto,
                         @RequestParam(name = "currentPage", defaultValue = "0") long currentPage,
                         Model model) {
-        int boardSize = 1; // 한 페이지에 보여줄 board 개수
+        int boardSize = 5; // 한 페이지에 보여줄 board 개수
 
         log.info("---start board()---");
         log.info("boardSearchDto searchWord ={}, type={}", boardSearchDto.getSearchWord(), boardSearchDto.getSearchType());
@@ -35,22 +37,28 @@ public class MainController {
         int boardCount = boards.size();  // board 총 개수
         //totalPages : 페이지 총 개수
         int totalPages = ((float) boardCount % (float) boardSize == 0f) ? boardCount / boardSize : boardCount / boardSize + 1;
+
         int startBoardIndex = (int) currentPage * boardSize;
         //endBoardIndex : 마지막 페이지에서 board개수가 boardSize보다 작으면 boardCount 같으면 (int) (page + 1) * boardSize
         int endBoardIndex = Math.min(boardCount, (int) (currentPage + 1) * boardSize);
 
-        boards = boards.subList(startBoardIndex, endBoardIndex);  //현재 page에 표시할 board 리스트
-
-        int startPage = getStartPage((int) currentPage);
+        int startPage = getStartPage((int) currentPage + 1);
         int endPage = getEndPage((int) currentPage + 1, totalPages);
 
-        log.info("startPage={} endPage={} totalPages={}", startPage, endPage, totalPages);
+        boards = boards.subList(startBoardIndex, endBoardIndex);  //현재 page에 표시할 board 리스트
+
+        log.info("boards[0].date={}",boards);
+
+        log.info("totalPages={}", totalPages);
+        log.info("startBoardIndex={} endBoardIndex={}", startBoardIndex, endBoardIndex);
+        log.info("startPage={} endPage={}", startPage, endPage);
 
         model.addAttribute("boards", boards);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        model.addAttribute("yesterdayTime", LocalDateTime.now().minus(24, ChronoUnit.HOURS));
 
         log.info("---end board()---");
 
@@ -101,13 +109,12 @@ public class MainController {
     }
 
     private static int getStartPage(int currentPage) {
-
         return Math.max(1, currentPage - 4);
     }
 
     private static int getEndPage(int currentPage, int totalPages) {
         if (totalPages < 10) {
-            return currentPage;
+            return Math.max(currentPage, totalPages);
         } else {
             return (currentPage + 4 <= 10) ? 10 : Math.min(currentPage + 4, totalPages);
         }
